@@ -1,0 +1,28 @@
+import express from "express";
+import colors from "colors";
+import mongodb from "mongodb";
+import dotenv from "dotenv";
+dotenv.config();
+
+import { logger } from "./middleware/logger.js";
+import { connectDB } from "./config/db.js";
+
+import Products from "./data/products.js";
+
+// Mongo && Port
+connectDB();
+const PORT = process.env.PORT || 5000;
+
+const app = express();
+app.use(logger);
+
+app.get("/api/products", (req, res) => {
+  res.json(Products);
+});
+
+app.listen(PORT, () =>
+  console.log(
+    `App listening on mode ${process.env.NODE_ENV} in port ${PORT}`.green
+      .inverse
+  )
+);
